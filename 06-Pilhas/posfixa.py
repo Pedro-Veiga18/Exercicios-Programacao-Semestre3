@@ -15,8 +15,25 @@ def converter(expressao: str) -> str:
     
     for ch in expressao:
         if ch != ' ':
-            if ch in ('+', '-', '*', '/', '%'):
-                pass
+            if ch in ('+', '-', '*', '/', '%', '^'):
+                while pilha and (prioridade(pilha[-1]) >= prioridade(ch)):
+                    posfixa += pilha.pop()
+                pilha.append(ch)
+            elif ch == '(':
+                    pilha.append(ch)
+            elif ch == ')':
+                while pilha[-1] != '(':
+                    posfixa += pilha.pop()
+                pilha.pop()
+            else:
+                posfixa += ch
+                
+    # esvazia toda a pilha caso tenha sobrado algum objeto
+    while pilha:
+        posfixa += pilha.pop()
+        
+    return posfixa
+                
 
 
 
